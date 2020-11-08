@@ -135,7 +135,8 @@ def notification(status, SCKEY):
 if __name__ == "__main__":
     dic = dict()
     #****************************需要个人填写的部分*************************
-    #'12':南苑8公寓 '10':'南苑6公寓'
+    # gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}   
+    # 缩写 qsh:寝室号 zy:专业
     dic['lx'] = {'username': 're18', 'passwd': 'xxx', 'qsh': 'xxx', 'gy': '10', 'zy': u"计算机应用技术", 'xq': '1','nj': '9'}
     dic['zhy'] = {'username':'zj18','passwd':'xxx','qsh':'xxx','gy':'12','zy':u"计算机应用技术",'xq':'1','nj':'9'}
     chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
