@@ -29,6 +29,10 @@
 
 * **（必选）** **各位看官大老爷，随手给个star吧~**
 
+## 更新
+
+* 使用webdriver时,chromedriver有DOS黑窗问题。[Selenium隐藏控制台解决办法](https://www.cnblogs.com/TurboWay/p/9300105.html)
+
 ## 免责声明
 本自动程序适用于 2020-2021 秋季学期吉林大学研究生每日健康打卡（测温&点名），不保证按时更新。 
 
