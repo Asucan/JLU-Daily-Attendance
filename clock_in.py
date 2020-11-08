@@ -7,12 +7,14 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
 class clock_in:
-    def __init__(self, dic):
+    def __init__(self, dic, chrome_driver_path, op=1):
         self.dic = dic
+        self.dirver_path = chrome_driver_path
+        self.op = op
         self.log = ''
 
     def start(self):
-        browser = self.browser_start()
+        browser = self.browser_start(self.dirver_path, op=self.op)
         self.login(browser,self.dic)
         return self.log
 
@@ -88,12 +90,12 @@ class clock_in:
             browser.find_element_by_xpath('//*[@id="V1_CTRL23"]').click()
         '''
 
-        if hour > 6 and hour < 12:
+        if hour > 5 and hour < 12:
             browser.find_element_by_xpath('//*[@id="V1_CTRL28"]').click()
-            print('打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...')
-            self.log += '打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...\t'
-        else:
+        elif hour > 8 and hour < 11:
             pass
+        print('打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...')
+        self.log += '打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...\t'
 
         #提交
         browser.find_element_by_xpath('/html/body/div[4]/form/div/div[1]/div[2]/ul/li[1]').click()
@@ -108,15 +110,15 @@ class clock_in:
             self.log += '办理成功 !'
         browser.quit()
 
-    def browser_start(self, op=1):
-        chrome_driver = "C:\Program Files (x86)\Google\Chrome\Application"
-        os.environ["webdriver.ie.driver"] = chrome_driver
-        if op == 1:
+    def browser_start(self, path, op):
+        chrome_driver_path = path
+        os.environ["webdriver.ie.driver"] = chrome_driver_path
+        if op == 0:
             #隐式使用浏览器
             option = webdriver.ChromeOptions()
             option.add_argument('headless')
             browser = webdriver.Chrome(options=option)
-        else:
+        elif op == 1:
             #显式使用浏览器
             browser = webdriver.Chrome()
         browser.get("https://ehall.jlu.edu.cn/jlu_portal/")
@@ -124,23 +126,29 @@ class clock_in:
         return browser
 
 #微信提醒打卡成功或失败
-def notification(status):
+def notification(status, urlPush):
     textPush = status
-    urlPush = 'https://sc.ftqq.com/SCU124088T3fe53727410f299aa8318815b55b7eff5fa57ae1cb1bd.send'
+    urlPush = 'https://sc.ftqq.com/'+SCKEY+'.send'
     dataPush = {'text':textPush}
     requests.post(urlPush, data=dataPush, verify=False)
 
 if __name__ == "__main__":
     dic = dict()
+    #****************************需要个人填写的部分*************************
     #'12':南苑8公寓 '10':'南苑6公寓'
-    dic['lx'] = {'username': 'xl18', 'passwd': '123lx456', 'qsh': '508', 'gy': '10', 'zy': u"计算机应用技术", 'xq': '1','nj': '9'}
-    dic['zhy'] = {'username':'zhuhy18','passwd':'zhu229531','qsh':'529','gy':'12','zy':u"计算机应用技术",'xq':'1','nj':'9'}
+    dic['lx'] = {'username': 're18', 'passwd': 'xxx', 'qsh': 'xxx', 'gy': '10', 'zy': u"计算机应用技术", 'xq': '1','nj': '9'}
+    dic['zhy'] = {'username':'zj18','passwd':'xxx','qsh':'xxx','gy':'12','zy':u"计算机应用技术",'xq':'1','nj':'9'}
+    chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
+    SCKEY = "..."
+    #是否显示调用浏览器：1：显式，0：隐式
+    op = 1
+    # ****************************需要个人填写的部分*************************
 
     for person in dic:
-        clock = clock_in(dic[person])
+        clock = clock_in(dic[person], chrome_driver_path, op)
         try:
             text = clock.start()
-            #notification(text)
+            notification(text,SCKEY)
         except Exception as e:
             traceback.print_exc()
-            #notification(clock.log+'\n打卡失败  错误提示：'+traceback.format_exc())
+            notification(clock.log+'\n打卡失败  错误提示：'+traceback.format_exc(),SCKEY)
