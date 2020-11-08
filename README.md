@@ -23,8 +23,8 @@
   * server网址http://sc.ftqq.com/3.version
 
 * **（可选）** Windows定时运行脚本。参考[Windows系统中设置Python程序定时运行](https://blog.csdn.net/xgxyxs/article/details/85045801)  
-  *  (1)  使用pythonw.exe而不是python.exe, 程序就可以在Windows后台执行, 不显示命令提示符窗口
-  *  (2)  另一种方法是修改脚本的扩展名为".pyw"，双击即可后台运行，不需要修改任何代码
+  *  方法一：使用pythonw.exe而不是python.exe, 程序就可以在Windows后台执行, 不显示命令提示符窗口
+  *  方法二：是修改脚本的扩展名为".pyw"，双击即可后台运行，不需要修改任何代码
 
 * **（必选）** **各位看官大老爷，随手给个star吧~**
 
