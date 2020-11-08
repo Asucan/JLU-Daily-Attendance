@@ -126,7 +126,7 @@ class clock_in:
         return browser
 
 #微信提醒打卡成功或失败
-def notification(status, urlPush):
+def notification(status, SCKEY):
     textPush = status
     urlPush = 'https://sc.ftqq.com/'+SCKEY+'.send'
     dataPush = {'text':textPush}
