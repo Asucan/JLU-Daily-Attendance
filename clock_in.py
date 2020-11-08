@@ -151,10 +151,10 @@ if __name__ == "__main__":
         try:
             text = clock.start()
             if wechat == 1:
-                notification(text,SCKEY)
+                notification('打卡成功! 日志: '+text,SCKEY)
         except Exception as e:
             traceback.print_exc()
             if wechat == 1:
-                notification(clock.log+'\n打卡失败  错误提示：'+traceback.format_exc(),SCKEY)
+                notification('打卡失败!  日志: '+clock.log+' 错误提示：'+traceback.format_exc(),SCKEY)
         finally:
             clock.browser.quit()
