@@ -136,10 +136,10 @@ def notification(status, SCKEY):
 if __name__ == "__main__":
     dic = dict()
     #****************************需要个人填写的部分*************************
-    # gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}
-    # 缩写 qsh:寝室号 zy:专业
-    dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': 'xx', 'gy': '10', 'zy': u"xx", 'xq': '1','nj': '9'}
-    dic['xx'] = {'username':'xx18','passwd':'xx','qsh':'xx','gy':'12','zy':u"xx",'xq':'1','nj':'9'}
+    # 缩写 qsh:寝室号 zy:专业 gy：公寓 xq：校区 nj: 年级
+    # 对应关系 gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}
+    dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': 'xx', 'gy': '10', 'zy': u"搬砖专业", 'xq': '1','nj': '9'}
+    dic['xx'] = {'username':'xx18','passwd':'xx','qsh':'xx','gy':'12','zy':u"搬砖专业",'xq':'1','nj':'9'}
     chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
     SCKEY = "..."
     op = 1 #是否显示调用浏览器：1：显式，0：隐式
