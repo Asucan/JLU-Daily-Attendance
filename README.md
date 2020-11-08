@@ -23,9 +23,9 @@
   * server网址http://sc.ftqq.com/3.version
 
 * **（可选）** Windows定时运行脚本。参考[Windows系统中设置Python程序定时运行](https://blog.csdn.net/xgxyxs/article/details/85045801)  
-  *  （1）使用pythonw.exe而不是python.exe, 程序就可以在Windows后台执行, 不显示命令提示符窗口
-  *  （2）另一种方法是修改脚本的扩展名为".pyw"，双击即可后台运行，不需要修改任何代码
-  *    懒得配置Windows定时运行，可以使用2方法手动双击
+  *  (1)  使用pythonw.exe而不是python.exe, 程序就可以在Windows后台执行, 不显示命令提示符窗口
+  *  (2)  另一种方法是修改脚本的扩展名为".pyw"，双击即可后台运行，不需要修改任何代码
+  *   懒得配置Windows定时运行，可以使用2方法手动双击
   
 ## 免责声明
 本自动程序适用于 2020-2021 秋季学期吉林大学研究生每日健康打卡（测温&点名），不保证按时更新。 
