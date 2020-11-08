@@ -14,7 +14,7 @@
   *  确定chrome 安装位置, 并复制至代码主函数（例如：C:\Program Files (x86)\Google\Chrome\Application）
   
 * 配置个人信息
-  * 个人信息参考 config文件
+  * ~~个人信息参考 config文件~~不想写对应关系config文件了，F12自己查查吧！
   
 * **（可选）** 微信消息提醒（请使用个人微信绑定的SCKEY）
   * server网址http://sc.ftqq.com/3.version
