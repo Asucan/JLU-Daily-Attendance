@@ -11,13 +11,16 @@
 ## 需要做的事情
 * 配置chrome浏览器驱动（配置后可能需要重启）
   *  下载chrome driver, 将chrome diver放置在chrome浏览器安装文件夹下。参考[selenium 安装与 chromedriver安装](https://www.cnblogs.com/lfri/p/10542797.html)
-  *  确定chrome 安装位置, 复制至代码主函数（例如：C:\Program Files (x86)\Google\Chrome\Application）
+  *  确定chrome 安装位置, 并复制至代码主函数（例如：C:\Program Files (x86)\Google\Chrome\Application）
   
 * 配置个人信息
   * 个人信息参考 config文件
   
 * **（可选）** 微信消息提醒（请使用个人微信绑定的SCKEY）
   * server网址http://sc.ftqq.com/3.version
+
+* Windows定时运行脚本。参考[Windows系统中设置Python程序定时运行](https://blog.csdn.net/guanmaoning/article/details/80152131)  
+  *  将python.exe替换成pythonw.exe, 程序就可以在Windows后台执行, 不显示命令提示符窗口； 另一种方法是修改脚本的扩展名为".pyw"，双击即可后台运行，不需要修改任何代码
   
 ## 免责声明
 本自动程序适用于 2020-2021 秋季学期吉林大学研究生每日健康打卡（测温&点名），不保证按时更新。 
