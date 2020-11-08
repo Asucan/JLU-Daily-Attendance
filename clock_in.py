@@ -141,9 +141,9 @@ if __name__ == "__main__":
     dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': '222', 'zy': u"搬砖专业", 'xq': '1','nj': '9', 'gy': '10'}
     dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': '333', 'zy': u"搬砖专业", 'xq':'1', 'nj': '9', 'gy': '12'}
     chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
-    SCKEY = "..."
     op = 1 #是否显示调用浏览器：1：显式，0：隐式
     wechat = 1 #是否微信提醒：1：提醒，0：不提醒 (微信提醒需要配置SCKEY码，详情参考github-readme)
+    SCKEY = "xxx"
     # ****************************需要个人填写的部分*************************
 
     for person in dic:
