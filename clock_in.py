@@ -117,6 +117,7 @@ class clock_in:
         if op == 0:
             #隐式使用浏览器
             option = webdriver.ChromeOptions()
+            option.add_experimental_option('excludeSwitches', ['enable-logging'])
             option.add_argument('headless')
             browser = webdriver.Chrome(options=option)
         elif op == 1:
@@ -133,29 +134,46 @@ def notification(status, SCKEY):
     dataPush = {'text':textPush}
     requests.post(urlPush, data=dataPush, verify=False)
 
+def process(dic, person):
+    clock = clock_in(dic[person], chrome_driver_path, op)
+    try:
+        text = clock.start()
+        if wechat == 1:
+            notification('打卡成功! 日志: ' + text, dic[person]['SCKEY'])
+        clock.browser.quit()
+        return 1
+    except Exception as e:
+        traceback.print_exc()
+        if wechat == 1:
+            notification('打卡失败! 五分钟后重新打卡!  日志: ' + clock.log + ' 错误提示：' + traceback.format_exc(), dic[person]['SCKEY'])
+        clock.browser.quit()
+        return 0
+
 if __name__ == "__main__":
     dic = dict()
-    
     #****************************需要个人填写的部分*************************
-    # 缩写 qsh:寝室号 zy:专业 gy：公寓 xq：校区 nj: 年级
-    # 部分对应关系 gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}
-    dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': '222', 'zy': u"搬砖专业", 'xq': '1','nj': '9', 'gy': '10'}
-    dic['xx'] = {'username': 'xx18', 'passwd': 'xx', 'qsh': '333', 'zy': u"搬砖专业", 'xq':'1', 'nj': '9', 'gy': '12'}
+    # gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}
+    # 缩写 qsh:寝室号 zy:专业 flag:打卡标识，不需改动
+    dic['x1'] = {'username': 'x118', 'passwd': 'xx', 'qsh': '222', 'gy': '10', 'zy': u"搬砖专业", 'xq': '1','nj': '9','flag':True}
+    dic['x2'] = {'username':'x218','passwd':'xx','qsh':'333','gy':'12','zy':u"搬砖专业",'xq':'1','nj':'9','flag':True}
     chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
-    op = 1 #是否显示调用浏览器：1：显式，0：隐式
+    dic['x1']['SCKEY'] = "..."
+    dic['x2']['SCKEY'] = "..."
+    op = 0 #是否显示调用浏览器：1：显式，0：隐式
     wechat = 1 #是否微信提醒：1：提醒，0：不提醒 (微信提醒需要配置SCKEY码，详情参考github-readme)
-    SCKEY = "xxx" #填写自己微信绑定的SCKEY码
     # ****************************需要个人填写的部分*************************
 
-    for person in dic:
-        clock = clock_in(dic[person], chrome_driver_path, op)
-        try:
-            text = clock.start()
-            if wechat == 1:
-                notification('打卡成功! 日志: '+text,SCKEY)
-        except Exception as e:
-            traceback.print_exc()
-            if wechat == 1:
-                notification('打卡失败!  日志: '+clock.log+' 错误提示：'+traceback.format_exc(),SCKEY)
-        finally:
-            clock.browser.quit()
+    while 1:
+        judge = 0
+        for person in dic:
+            if dic[person]['flag'] == True:
+                flag = process(dic, person)
+                if flag == 1:
+                    dic[person]['flag'] = False
+                judge += flag
+            else:
+                judge += 1
+        if judge == len(dic):
+            break
+        else:
+            time.sleep(300)
