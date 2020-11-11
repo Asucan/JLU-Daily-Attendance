@@ -34,7 +34,7 @@ class clock_in:
         time.sleep(3)
 
         #点击研究生打卡
-        self.browser.find_element_by_xpath('//*[@id="cont_one_1"]/li[3]/a/dl/dd').click()
+        self.browser.find_element_by_xpath('//*[@id="cont_one_1"]/li[2]/a/dl/dd').click()
         time.sleep(2)
 
         #点击我要办理
@@ -145,7 +145,8 @@ def process(dic, person, chrome_driver_path, op):
     except Exception as e:
         traceback.print_exc()
         if dic[person]['wechat'] == 1:
-            notification('打卡失败! 五分钟后重新打卡!  日志: ' + clock.log + ' 错误提示：' + traceback.format_exc(), dic[person]['SCKEY'])
+            dic[person]['num'] += 1
+            notification('打卡失败'+str(dic[person]['num'])+'次 五分钟后重新打卡  日志: ' + clock.log + ' 错误提示：' + traceback.format_exc(), dic[person]['SCKEY'])
         clock.browser.quit()
         return 0
 
@@ -154,9 +155,9 @@ if __name__ == "__main__":
     dic = dict()
     #****************************需要个人填写的部分*************************
     # gy{'12':南苑8公寓,'10':'南苑6公寓'} xq{'1':中心校区} nj{'9':2018级}
-    # 缩写 qsh:寝室号 zy:专业  wechat: 是否微信提醒：1：提醒，0：不提醒 (微信提醒需要配置SCKEY码，详情参考github-readme) flag:打卡标识
-    dic['x1'] = {'username': 'x118', 'passwd': '...', 'qsh': '222', 'gy': '10', 'zy': u"搬砖技术", 'xq': '1','nj': '9','flag':True, 'wechat':1}
-    dic['x2'] = {'username': 'x218', 'passwd': '...', 'qsh': '333', 'gy': '12', 'zy': u"搬砖技术", 'xq': '1','nj': '9','flag':True, 'wechat':1}
+    # 缩写 qsh:寝室号 zy:专业  wechat: 是否微信提醒：1：提醒，0：不提醒 (微信提醒需要配置SCKEY码，详情参考github-readme) flag:打卡标识 num：累计失败打卡次数
+    dic['x1'] = {'username': 'x118', 'passwd': '...', 'qsh': '222', 'gy': '10', 'zy': u"搬砖技术", 'xq': '1','nj': '9','flag':True, 'wechat':1, 'num':0}
+    dic['x2'] = {'username': 'x218', 'passwd': '...', 'qsh': '333', 'gy': '12', 'zy': u"搬砖技术", 'xq': '1','nj': '9','flag':True, 'wechat':1, 'num':0}
     chrome_driver_path = "C:\Program Files (x86)\Google\Chrome\Application" #chrome driver 位置 不同主机可能不同
     dic['x1']['SCKEY'] = '...'
     dic['x2']['SCKEY'] = '...'
