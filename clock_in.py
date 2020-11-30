@@ -46,37 +46,6 @@ class clock_in:
         handles = self.browser.window_handles
         self.browser.switch_to_window(handles[1])
 
-        #输入专业
-        zy = self.browser.find_element_by_xpath('/html/body/div[4]/form/div/div[2]/div[3]/div/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[2]/div/input')
-        zy.clear()
-        zy.send_keys(dic['zy'])
-
-        #选择年级
-        Select(self.browser.find_element_by_xpath(
-            "/html/body/div[4]/form/div/div[2]/div[3]/div/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[4]/font/div/select")).select_by_value(
-            dic['nj'])
-        #选择校区
-        Select(self.browser.find_element_by_xpath(
-            "/html/body/div[4]/form/div/div[2]/div[3]/div/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[4]/td[4]/font/div/select")).select_by_value(
-            dic['xq'])
-
-        #选择公寓
-        Select(self.browser.find_element_by_xpath(
-            "/html/body/div[4]/form/div/div[2]/div[3]/div/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[5]/td[2]/div/select")).select_by_value(
-            dic['gy'])
-
-        #填写寝室号
-        qsh = self.browser.find_element_by_xpath('/html/body/div[4]/form/div/div[2]/div[3]/div/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[6]/td[2]/div/input')
-        qsh.clear()
-        qsh.send_keys(dic['qsh'])
-
-        #点击硕士
-        self.browser.find_element_by_xpath('//*[@id="V1_CTRL44"]').click()
-        print('填写基本信息...')
-        self.log += '填写基本信息...\t'
-        curr_time = datetime.datetime.now()
-        hour = int(curr_time.hour)
-
         '''
         #判断打卡时间
         if hour == 7:
@@ -89,21 +58,54 @@ class clock_in:
             # 17：00-18：00 体温状态
             browser.find_element_by_xpath('//*[@id="V1_CTRL23"]').click()
         '''
-
+        curr_time = datetime.datetime.now()
+        hour = int(curr_time.hour)
         if hour > 5 and hour < 12:
             self.browser.find_element_by_xpath('//*[@id="V1_CTRL28"]').click()
-        elif hour > 20 and hour < 23:
+        elif hour > 19 and hour < 24:
             pass
         else:
             self.log += '打卡时间错误 '
         print('打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...')
         self.log += '打卡时间 '+curr_time.strftime('%Y-%m-%d %H:%M:%S')+'...\t'
 
+        #输入专业
+        zy = self.browser.find_element_by_xpath('/html/body/div[4]/form/div/div[3]/div[3]/div[1]/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[2]/div/input')
+        zy.clear()
+        zy.send_keys(dic['zy'])
+
+        #选择年级
+        Select(self.browser.find_element_by_xpath(
+            "/html/body/div[4]/form/div/div[3]/div[3]/div[1]/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[4]/font/div/select")).select_by_value(
+            dic['nj'])
+        #选择校区
+        Select(self.browser.find_element_by_xpath(
+            "/html/body/div[4]/form/div/div[3]/div[3]/div[1]/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[4]/td[4]/font/div/select")).select_by_value(
+            dic['xq'])
+
+        #选择公寓
+        Select(self.browser.find_element_by_xpath(
+            "/html/body/div[4]/form/div/div[3]/div[3]/div[1]/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[5]/td[2]/div/select")).select_by_value(
+            dic['gy'])
+
+        #填写寝室号
+        qsh = self.browser.find_element_by_xpath('/html/body/div[4]/form/div/div[3]/div[3]/div[1]/div[1]/div[2]/table/tbody/tr[2]/td/div/table/tbody/tr[6]/td[2]/div/input')
+        qsh.clear()
+        qsh.send_keys(dic['qsh'])
+
+        #点击硕士
+        #self.browser.find_element_by_xpath('//*[@id="V1_CTRL44"]').click()
+        element = self.browser.find_element_by_xpath('//*[@id="V1_CTRL44"]')
+        self.browser.execute_script("arguments[0].click();", element)
+        print('填写基本信息...')
+        self.log += '填写基本信息...\t'
+
         #提交
-        self.browser.find_element_by_xpath('/html/body/div[4]/form/div/div[1]/div[2]/ul/li[1]').click()
+        self.browser.find_element_by_xpath('/html/body/div[7]/ul/li/a').click()
+
         time.sleep(3)
         #确认
-        self.browser.find_element_by_xpath('/html/body/div[6]/div/div[2]/button[1]').click()
+        self.browser.find_element_by_xpath('/html/body/div[7]/div/div[2]/button[1]').click()
         print('提交确认...')
         self.log += '提交确认...\t'
         time.sleep(3)
@@ -140,14 +142,14 @@ def process(dic, person, chrome_driver_path, op):
         text = clock.start()
         if dic[person]['wechat'] == 1:
             notification('打卡成功! 日志: ' + text, dic[person]['SCKEY'])
-        clock.browser.quit()
+        #clock.browser.quit()
         return 1
     except Exception as e:
         traceback.print_exc()
         if dic[person]['wechat'] == 1:
             dic[person]['num'] += 1
             notification('打卡失败'+str(dic[person]['num'])+'次 五分钟后重新打卡  日志: ' + clock.log + ' 错误提示：' + traceback.format_exc(), dic[person]['SCKEY'])
-        clock.browser.quit()
+        #clock.browser.quit()
         return 0
 
 
